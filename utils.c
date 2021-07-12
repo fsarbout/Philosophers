@@ -6,11 +6,32 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 09:15:18 by fsarbout          #+#    #+#             */
-/*   Updated: 2021/07/12 15:09:11 by fsarbout         ###   ########.fr       */
+/*   Updated: 2021/07/12 20:16:25 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int		ft_isdigit(int c)
+{
+	if (c <= '9' && c >= '0')
+		return (1);
+	return (0);
+}
+
+int		not_number(const char *str)
+{
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str)
+	{
+		if (!(ft_isdigit(*str)))
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
 
 int	ft_atoi(const char *s)
 {
@@ -19,8 +40,10 @@ int	ft_atoi(const char *s)
 
 	sign = 1;
 	a = 0;
-	while (*s == ' ' || (*s <= 13 && *s >= 9))
+	while (*s == ' ')
 		s++;
+	if (not_number(s))
+		exit_("Error : invalid args", 1);
 	if (*s == '-')
 		exit_("Error : invalid args", 1);
 	else if (*s == '+')
@@ -64,12 +87,16 @@ void    print_status(t_data data)
 	printf("**************************\n");
 }
 
-void	init_struct(t_data **data, t_philos *philo, char **av)
+void	fill_data(t_data *data, t_philos **philo, char **av, int ac)
 {
-	data->num_of_philos = ar[0];
-	data-> = ar[0];
-	// data->
-	// data->
-	// data->
-	// data->
+	data->num_of_philos = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
+	data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
+	data->time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
+	if (ac == 6)
+		data->n_necessity_to_eat = ft_atoi(av[5]);
+	data->num_forks = data->num_of_philos;
+	pthread_mutex_init(&data->mutex, NULL);
+	philo = NULL;
 }
+
