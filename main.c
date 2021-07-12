@@ -6,47 +6,38 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:30:43 by fsarbout          #+#    #+#             */
-/*   Updated: 2021/07/10 21:05:06 by fsarbout         ###   ########.fr       */
+/*   Updated: 2021/07/12 12:29:41 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void    *myturn()
+void    *routine(void *arg)
 {
-    int i = 0;
-    while (i < 10) 
-    {
-        sleep(1);
-        printf ("my turn\n");
-        i++;
-    }
-    return 0;
-}
-
-void    *yourturn()
-{
-    int i = 0;
-    while (i < 3)
-    {
-        sleep(2);
-        printf ("your turn\n");
-        i++;
-    }
-    return 0;
+    int *s = (int *)arg;
+    printf("l***** %d \n", *s);
+    return 0;    
 }
 
 
-int main()
+int main(int ac, char **av)
 {
-    //this program work on more than thind concurrently
+    t_data data;
+
+
+    /* fill data */
+    if (ac != 5 && ac != 6)
+        exit_("Error : number of arguments", 1);
+    data = (t_data){ft_atoi(av[1]), ft_atoi(av[2]) * TO_MICRO_S
+        , ft_atoi(av[3] )* TO_MICRO_S, ft_atoi(av[4])* TO_MICRO_S, 0,};
+    if (ac == 6)
+        data.n_necessity_to_eat = ft_atoi(av[5]) * TO_MICRO_S;  
     
-    pthread_t newthread;
+    pthread_create(&data.th, NULL, routine, data.th);
     
-    pthread_create(&newthread, 0 , myturn, 0);
-    yourturn();
-     
-    //wait until the thread is done  before we exit
-    pthread_join(newthread, NULL);
+    printf ("hello\n");
     
+    
+    print_status(data);
 }
+

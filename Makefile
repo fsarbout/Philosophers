@@ -6,15 +6,15 @@
 #    By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/10 20:29:56 by fsarbout          #+#    #+#              #
-#    Updated: 2021/07/10 20:33:13 by fsarbout         ###   ########.fr        #
+#    Updated: 2021/07/12 12:21:29 by fsarbout         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-CC = gcc -g -ltermcap
+CC = gcc -g
 
-CFLAGS = -Wall -Wextra -Werror -lpthread
+CFLAGS = -Wall -Wextra -Werror -lpthread -fsanitize=address
 
 SRC =  *.c
 
@@ -27,5 +27,6 @@ clean:
 	@rm -rf philo.dSYM
 
 fclean: clean
-	@rm -rf $(NAME) 
+	@rm -rf $(NAME)
+	@rm -rf philo.dSYM
 re:	fclean all
