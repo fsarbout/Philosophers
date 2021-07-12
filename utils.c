@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 09:15:18 by fsarbout          #+#    #+#             */
-/*   Updated: 2021/07/12 11:31:12 by fsarbout         ###   ########.fr       */
+/*   Updated: 2021/07/12 15:09:11 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,20 @@ int is_pair(int i)
 
 void    print_status(t_data data)
 {
-    printf("time to die %d\n", data.num_of_philos);
+    printf("num of philos %d\n", data.num_of_philos);
     printf("time_to_die %d\n", data.time_to_die);
     printf("time_to_eat %d\n", data.time_to_eat);
     printf("time_to_sleep %d\n", data.time_to_sleep);
     printf("n_necessity_to_eat %d\n", data.n_necessity_to_eat);
 	printf("**************************\n");
+}
+
+void	init_struct(t_data **data, t_philos *philo, char **av)
+{
+	data->num_of_philos = ar[0];
+	data-> = ar[0];
+	// data->
+	// data->
+	// data->
+	// data->
 }

@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:27:38 by fsarbout          #+#    #+#             */
-/*   Updated: 2021/07/12 12:22:38 by fsarbout         ###   ########.fr       */
+/*   Updated: 2021/07/12 15:08:45 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,19 @@ typedef struct s_data
     //data type : ID of a thread . return by pthread_create
 }       t_data;
 
-// typedef struct s_philos
-// {
-//     t_data  data;
-//     int     id;
-//     int     is_dead;
-//     int     last_eat;    
-// }   t_philos;
+typedef struct s_philos
+{
+    t_data  data;
+    int     id;
+    // int     is_dead;
+    // int     last_eat;    
+}   t_philos;
 
 int	    ft_atoi(const char *s);
 void	exit_(char *string, int error);
 void    print_status(t_data data);
 int     is_pair(int i);
+void	init_struct(t_data **data, t_philos *philo, char **av);
 
 void    *routine(void *);
 

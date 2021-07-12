@@ -6,7 +6,7 @@
 #    By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/10 20:29:56 by fsarbout          #+#    #+#              #
-#    Updated: 2021/07/12 12:21:29 by fsarbout         ###   ########.fr        #
+#    Updated: 2021/07/12 12:41:51 by fsarbout         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC =  *.c
 all : $(NAME)
 
 $(NAME): $(SRC)
-	@$(CC) $(CFLAGS) $(SRC) -o $(NAME) -g
+	@$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 clean:
 	@rm -rf *.o
 	@rm -rf philo.dSYM
