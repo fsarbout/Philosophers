@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 09:15:18 by fsarbout          #+#    #+#             */
-/*   Updated: 2021/07/12 20:16:25 by fsarbout         ###   ########.fr       */
+/*   Updated: 2021/12/03 14:22:19 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,29 @@ int is_pair(int i)
 	return (0);
 }
 
-void    print_status(t_data data)
+void    print_status(t_data *data)
 {
-    printf("num of philos %d\n", data.num_of_philos);
-    printf("time_to_die %d\n", data.time_to_die);
-    printf("time_to_eat %d\n", data.time_to_eat);
-    printf("time_to_sleep %d\n", data.time_to_sleep);
-    printf("n_necessity_to_eat %d\n", data.n_necessity_to_eat);
+    printf("num of philos %d\n", data->nb_philos);
+    printf("time_to_die %d\n", data->time_to_die);
+    printf("time_to_eat %d\n", data->time_to_eat);
+    printf("time_to_sleep %d\n", data->time_to_sleep);
+    printf("n_necessity_to_eat %d\n", data->n_necessity_to_eat);
 	printf("**************************\n");
 }
 
 void	fill_data(t_data *data, t_philos **philo, char **av, int ac)
 {
-	data->num_of_philos = ft_atoi(av[1]);
+	data->nb_philos = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
 	data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
 	data->time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
+
 	if (ac == 6)
 		data->n_necessity_to_eat = ft_atoi(av[5]);
-	data->num_forks = data->num_of_philos;
+	data->num_forks = data->nb_philos;
 	pthread_mutex_init(&data->mutex, NULL);
 	philo = NULL;
+	(void)philo;
+	(void)ac;
 }
 
