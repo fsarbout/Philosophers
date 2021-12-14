@@ -12,23 +12,26 @@
 
 #include "philo.h"
 
+
+
+
 void    *routine(void *arg)
 {
-    t_philos *philo;
-    philo = (t_philos *)arg;
+    t_data *data;
+    data = (t_data *)arg;
     
-    philo = malloc(sizeof(t_philos *) * philo->data.nb_philos);
-    printf("thread outside %d \n", philo->data.num_forks);
-    while (philo->data.nb_philos)
+    printf("\033[0;31m thread outside %d  \033[0m\n", data->num_forks);
+    while (data->nb_philos > 0)
     {
-        if (philo->data.num_forks % 2 == 0)
+        if (data->num_forks % 2 == 0)
         {
-            pthread_mutex_lock(&philo->data.mutex);
-            printf("thread %d \n",philo->data.num_forks );
-            pthread_mutex_unlock(&philo->data.mutex);
+            pthread_mutex_lock(&data->mutex);
+            printf("thread %d \n",data->num_forks);
+            pthread_mutex_unlock(&data->mutex);
         }
+        data->nb_philos--;
     }
-    print_status(&philo->data);
+    // print_status(data);
     return 0;    
 }
 
@@ -44,12 +47,16 @@ int main(int ac, char **av)
     fill_data(data, &philo, av, ac);
 // 
     int philo_n = data->nb_philos;
-    while (philo_n--)
+    printf("  n philp %d\n", philo_n);
+    int i = 0;
+    while (i < philo_n)
     {
-        pthread_create(&data->th, NULL, &routine, &data);
-        pthread_join(&data->th, NULL);
+        pthread_create(&data->th, NULL, routine,data);
+        pthread_join(data->th, NULL);
+        // break;
+        i++;   
     }
-//  
+// 
     printf ("hello\n");
     print_status(data);
 }
