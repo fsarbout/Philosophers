@@ -77,29 +77,30 @@ int is_pair(int i)
 	return (0);
 }
 
-void    print_status(t_data *data)
-{
-    printf("num of philos %d\n", data->nb_philos);
-    printf("time_to_die %d\n", data->time_to_die);
-    printf("time_to_eat %d\n", data->time_to_eat);
-    printf("time_to_sleep %d\n", data->time_to_sleep);
-    printf("n_necessity_to_eat %d\n", data->n_necessity_to_eat);
-	printf("**************************\n");
-}
+// void    print_status(t_data *data)
+// {
+//     printf("num of philos %d\n", data->nb_philos);
+//     printf("time_to_die %d\n", data->time_to_die);
+//     printf("time_to_eat %d\n", data->time_to_eat);
+//     printf("time_to_sleep %d\n", data->time_to_sleep);
+//     printf("n_necessity_to_eat %d\n", data->n_necessity_to_eat);
+// 	printf("**************************\n");
+// }
 
-void	fill_data(t_data *data, t_philos **philo, char **av, int ac)
+void	fill_data(t_philos *philo, char **av, int ac)
 {
-	data->nb_philos = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
-	data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
-	data->time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
+	philo->data.nb_philos = ft_atoi(av[1]);
+	philo->data.time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
+	philo->data.time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
+	philo->data.time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
 
 	if (ac == 6)
-		data->n_necessity_to_eat = ft_atoi(av[5]);
-	data->num_forks = data->nb_philos;
-	pthread_mutex_init(&data->mutex, NULL);
+		philo->data.n_necessity_to_eat = ft_atoi(av[5]);
+	philo->data.num_forks = philo->data.nb_philos;
+	pthread_mutex_init(&philo->data.f_mutex, NULL);
+	philo->id = 0;
 	philo = NULL;
-	(void)philo;
-	(void)ac;
+	// (void)philo;
+	// (void)ac;
 }
 

@@ -39,7 +39,9 @@ typedef struct s_data
     int n_necessity_to_eat;
     int num_forks;
     pthread_t th;
-    pthread_mutex_t mutex;
+    pthread_mutex_t f_mutex;
+    pthread_mutex_t e_mutex;
+    pthread_mutex_t o_mutex;
     //data type : ID of a thread . return by pthread_create
 }       t_data;
 
@@ -55,7 +57,8 @@ int	    ft_atoi(const char *s);
 void	exit_(char *string, int error);
 void    print_status(t_data *data);
 int     is_pair(int i);
-void	fill_data(t_data *data, t_philos **philo, char **av,int ac);
+// void	fill_data(t_data *data, t_philos **philo, char **av,int ac);
+void	fill_data(t_philos *philo, char **av, int ac);
 void    *routine(void *);
 
 #endif
