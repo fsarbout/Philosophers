@@ -12,14 +12,14 @@
 
 #include "philo.h"
 
-int		ft_isdigit(int c)
+int ft_isdigit(int c)
 {
 	if (c <= '9' && c >= '0')
 		return (1);
 	return (0);
 }
 
-int		not_number(const char *str)
+int not_number(const char *str)
 {
 	if (*str == '-' || *str == '+')
 		str++;
@@ -32,11 +32,10 @@ int		not_number(const char *str)
 	return (0);
 }
 
-
-int	ft_atoi(const char *s)
+int ft_atoi(const char *s)
 {
-	int		sign;
-	long	a;
+	int sign;
+	long a;
 
 	sign = 1;
 	a = 0;
@@ -60,13 +59,13 @@ int	ft_atoi(const char *s)
 	return ((int)a * sign);
 }
 
-void	exit_(char *string, int error)
+void exit_(char *string, int error)
 {
 	if (error == 1)
-    {
-		printf("%s\n", string);
+	{
+		printf("\e[1;31m%s\033[0m\n", string);
 		exit(1);
-    }
+	}
 	exit(0);
 }
 
@@ -77,30 +76,25 @@ int is_pair(int i)
 	return (0);
 }
 
-// void    print_status(t_data *data)
-// {
-//     printf("num of philos %d\n", data->nb_philos);
-//     printf("time_to_die %d\n", data->time_to_die);
-//     printf("time_to_eat %d\n", data->time_to_eat);
-//     printf("time_to_sleep %d\n", data->time_to_sleep);
-//     printf("n_necessity_to_eat %d\n", data->n_necessity_to_eat);
-// 	printf("**************************\n");
-// }
-
-void	fill_data(t_philos *philo, char **av, int ac)
+void    print_status(t_philos *philo)
 {
-	philo->data.nb_philos = ft_atoi(av[1]);
-	philo->data.time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
-	philo->data.time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
-	philo->data.time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
-
-	if (ac == 6)
-		philo->data.n_necessity_to_eat = ft_atoi(av[5]);
-	philo->data.num_forks = philo->data.nb_philos;
-	pthread_mutex_init(&philo->data.f_mutex, NULL);
-	philo->id = 0;
-	philo = NULL;
-	// (void)philo;
-	// (void)ac;
+    printf("num of philos %d\n", philo->data->nb_philos);
+    printf("time_to_die %d\n", philo->data->time_to_die);
+    printf("time_to_eat %d\n", philo->data->time_to_eat);
+    printf("time_to_sleep %d\n", philo->data->time_to_sleep);
+    printf("n_necessity_to_eat %d\n", philo->data->n_necessity_to_eat);
+	printf("**************************\n");
 }
 
+void fill_data(t_philos *philo, char **av, int ac)
+{
+	philo->data->nb_philos = ft_atoi(av[1]);
+	philo->data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
+	philo->data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
+	philo->data->time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
+
+	if (ac == 6)
+		philo->data->n_necessity_to_eat = ft_atoi(av[5]);
+	philo->data->num_forks = philo->data->nb_philos;
+	philo->id = 0;
+}
