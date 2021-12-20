@@ -49,7 +49,7 @@ typedef struct s_philos
 {
     t_data  *data;
     int     id;
-    int last_eat;
+    int     last_eat;
     // int     is_dead;
     // int     last_eat;
 }   t_philos;

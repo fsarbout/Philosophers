@@ -92,7 +92,6 @@ void fill_data(t_philos *philo, char **av, int ac)
 	philo->data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
 	philo->data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
 	philo->data->time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
-
 	if (ac == 6)
 		philo->data->n_necessity_to_eat = ft_atoi(av[5]);
 	philo->data->num_forks = philo->data->nb_philos;

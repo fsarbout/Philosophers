@@ -12,27 +12,39 @@
 
 #include "philo.h"
 
+
 // ! gettime function
 
-void get_time(char *str)
+int get_time()
 {
-    printf("%s", str);
     struct timeval current_time;
     gettimeofday(&current_time, NULL);
-    printf("%d ", current_time.tv_usec);
+    return(current_time.tv_usec);
 }
 
+// ! check death function
+
+int check_death(t_philos *philo)
+{
+    int gettime;
+    if (philo->data->time_to_eat >= philo->data->time_to_die)
+        return (1);
+    gettime = get_time();
+    if (philo->data->time_to_die >= (philo->last_eat - gettime))
+        return (1);
+    return (0);
+}
 
 // ! take forks fucntion
 
 void take_forks(t_philos *ph)
 {
     pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
-    get_time("\e[1;33m");
+    printf ("\e[1;33m%d ", get_time());
     printf("\e[1;33m%d has taken a fork\033[0m\n", ph->id);
     pthread_mutex_unlock(&ph->data->f_mutex[ph->id]);
     pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
-    get_time("\e[1;33m");
+    printf ("\e[1;33m%d ", get_time());
     printf("\e[1;33m%d has taken a fork\033[0m\n", ph->id);
     pthread_mutex_unlock(&ph->data->f_mutex[ph->id]);
 }
@@ -41,16 +53,17 @@ void take_forks(t_philos *ph)
 
 void eating(t_philos *ph)
 {
-    get_time("\e[1;32m");
+    printf ("\e[1;32m%d ", get_time());
     printf("\e[1;32m%d is eating\033[0m\n", ph->id);
-    sleep(ph->data->time_to_eat);
+    ph->last_eat = get_time();
+    // sleep(ph->data->time_to_eat);
 }
 
 // ! thinking fucntion
 
 void thinking(t_philos *ph)
 {
-    get_time("\e[1;34m");
+    printf ("\e[1;32m%d ", get_time());
     printf("\e[1;34m%d is thinking\033[0m\n", ph->id);
 }
 
@@ -58,7 +71,7 @@ void thinking(t_philos *ph)
 
 void sleeping(t_philos *ph)
 {
-    get_time("\033[1;35m");
+    printf ("\e[1;32m%d ", get_time());
     printf("\033[1;35m%d is seelping\033[0m\n", ph->id);
     // sleep(ph->data->time_to_sleep);
 }
@@ -67,7 +80,7 @@ void sleeping(t_philos *ph)
 
 void is_dead(t_philos *ph)
 {
-    get_time("\e[1;31m");
+    printf ("\e[1;32m%d ", get_time());
     printf("\e[1;31m%d died\033[0m\n", ph->id);
     // sleep(ph->data->time_to_sleep);
 }
@@ -83,7 +96,8 @@ void *routine(void *arg)
     eating(ph);
     sleeping(ph);
     thinking(ph);
-    is_dead(ph);
+    if (check_death(ph))
+        is_dead(ph);
     usleep(800);
 
     return 0;
@@ -106,7 +120,6 @@ int main(int ac, char **av)
     //
     while (i < philo->data->nb_philos)
 	{
-
 		pthread_mutex_init(&philo->data->f_mutex[i], NULL);
 		i++;
 	}
