@@ -12,14 +12,27 @@
 
 #include "philo.h"
 
+// ! gettime function
+
+void get_time(char *str)
+{
+    printf("%s", str);
+    struct timeval current_time;
+    gettimeofday(&current_time, NULL);
+    printf("%d ", current_time.tv_usec);
+}
+
+
 // ! take forks fucntion
 
 void take_forks(t_philos *ph)
 {
     pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
+    get_time("\e[1;33m");
     printf("\e[1;33m%d has taken a fork\033[0m\n", ph->id);
     pthread_mutex_unlock(&ph->data->f_mutex[ph->id]);
     pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
+    get_time("\e[1;33m");
     printf("\e[1;33m%d has taken a fork\033[0m\n", ph->id);
     pthread_mutex_unlock(&ph->data->f_mutex[ph->id]);
 }
@@ -28,14 +41,16 @@ void take_forks(t_philos *ph)
 
 void eating(t_philos *ph)
 {
+    get_time("\e[1;32m");
     printf("\e[1;32m%d is eating\033[0m\n", ph->id);
-    // sleep(ph->data->time_to_eat);
+    sleep(ph->data->time_to_eat);
 }
 
 // ! thinking fucntion
 
 void thinking(t_philos *ph)
 {
+    get_time("\e[1;34m");
     printf("\e[1;34m%d is thinking\033[0m\n", ph->id);
 }
 
@@ -43,6 +58,7 @@ void thinking(t_philos *ph)
 
 void sleeping(t_philos *ph)
 {
+    get_time("\033[1;35m");
     printf("\033[1;35m%d is seelping\033[0m\n", ph->id);
     // sleep(ph->data->time_to_sleep);
 }
@@ -51,10 +67,10 @@ void sleeping(t_philos *ph)
 
 void is_dead(t_philos *ph)
 {
+    get_time("\e[1;31m");
     printf("\e[1;31m%d died\033[0m\n", ph->id);
     // sleep(ph->data->time_to_sleep);
 }
-
 
 // ! routine function
 
@@ -62,29 +78,20 @@ void *routine(void *arg)
 {
     t_philos *ph;
     ph = (t_philos *)arg;
-    int i = 0;
 
-    while (i < ph->data->nb_philos)
-    {
-        struct timeval current_time;
-        gettimeofday(&current_time, NULL);
-        // printf("%d\n",);
-        printf("seconds : %ld\nmicro seconds : %ld\n", current_time.tv_sec, current_time.tv_usec);
-        take_forks(ph);
-        eating(ph);
-        sleeping(ph);
-        thinking(ph);
-        is_dead(ph);
-        usleep(1);
-        i++;
-    }
+    take_forks(ph);
+    eating(ph);
+    sleeping(ph);
+    thinking(ph);
+    is_dead(ph);
+    usleep(800);
 
     return 0;
 }
 
 // ! main function
 
-int main(int ac, char **av)
+int main(int ac, char **av) 
 {
     t_philos *philo = NULL;
     int i = 0;
@@ -103,18 +110,14 @@ int main(int ac, char **av)
 		pthread_mutex_init(&philo->data->f_mutex[i], NULL);
 		i++;
 	}
-    // printf("%d", philo->data->nb_philos);
     i = 0;
-    // printf("nb philo loop %d \n", philo->data->nb_philos);
-    // while (i < philo->data->nb_philos)
     while (i < philo->data->nb_philos)
     {
         pthread_create(&philo->data->th, NULL, routine, philo);
-        // pthread_join(philo->data->th, NULL);
-        // printf("nb philo loop %d \n", philo->data->nb_philos);
+        pthread_join(philo->data->th, NULL);
         philo->id = i++;
-        // i++;
     }
+
     // print_status(philo);
 
     if (philo->data->f_mutex)
@@ -123,4 +126,5 @@ int main(int ac, char **av)
         free(philo->data);
     if (philo)
         free(philo);
+    return 0;
 }
