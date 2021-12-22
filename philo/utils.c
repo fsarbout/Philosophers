@@ -96,4 +96,5 @@ void fill_data(t_philos *philo, char **av, int ac)
 		philo->data->n_necessity_to_eat = ft_atoi(av[5]);
 	philo->data->num_forks = philo->data->nb_philos;
 	philo->id = 0;
+	philo->eat_nb = 0;
 }

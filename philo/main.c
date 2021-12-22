@@ -129,6 +129,7 @@ void eating(t_philos *ph)
     {
         print_status(1, ph);
         ph->last_eat = get_time();
+        ph->eat_nb++;
     }
     usleep(ph->data->time_to_eat);
     pthread_mutex_unlock(&ph->data->f_mutex[ph->id]);
@@ -178,45 +179,64 @@ void *routine(void *arg)
 int main(int ac, char **av)
 {
     pthread_t *th;
+    t_philos *philo;
 
-    t_philos *philo = NULL;
-    int i = 0;
     if (ac != 5 && ac != 6)
         exit_("\e[1;31mError : number of arguments\033[0m", 1);
     philo = malloc(sizeof(t_philos));
     philo->data = malloc(sizeof(t_data));
     fill_data(philo, av, ac);
+    if (philo->data->nb_philos == 0)
+    {
+        exit_("\e[1;31mError : no philo exists\033[0m", 1);
+        ft_free(philo, 0);
+    }
     philo->data->f_mutex = malloc(sizeof(pthread_mutex_t) * philo->data->num_forks);
-
     th = malloc(sizeof(pthread_t) * philo->data->nb_philos);
-    philo->id = 0;
+    mutex_init(philo);
+    start_simi(philo, th);
+}
 
-    //
+// ! mutex init function 
+
+void mutex_init(t_philos *philo)
+{
+    int i = 0;
+
     while (i < philo->data->nb_philos)
     {
         pthread_mutex_init(&philo->data->f_mutex[i], NULL);
         i++;
     }
-    i = 1;
+}
+
+// ! start similation function
+
+void start_simi(t_philos *philo, pthread_t *th)
+{
+    int i ;
+
     while (1)
     {
         i = 1;
         while (i <= philo->data->nb_philos)
         {
             philo->id = i++;
-            pthread_create(&th[philo->id - 1], NULL, routine, philo);
-            pthread_join(th[philo->id - 1], NULL);
+            if (pthread_create(&th[philo->id - 1], NULL, routine, philo))
+                exit_("\e[1;31mError : pthread_create\033[0m", 1);
+            if (pthread_join(th[philo->id - 1], NULL))
+                exit_("\e[1;31mError : pthread_join \033[0m", 1);
+            // pthread_join(th[philo->id - 1], NULL);
             if (check_death(philo))
             {
                 is_dead(philo);
                 ft_free(philo, th);
-                return 0;
+                return ;
             }
         }
         if (philo->id == philo->data->nb_philos)
             philo->id = 1;
-        printf("***********************************************************************\n");
+        printf("\e[1;37m***********************************************************************\033[0m\n");
     }
     ft_free(philo, th);
-    return 0;
 }

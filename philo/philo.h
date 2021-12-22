@@ -50,13 +50,16 @@ typedef struct s_philos
     int     last_eat;
     int     has_forks;
     int     is_dead;
+    int     eat_nb;
 }   t_philos;
 
 int	    ft_atoi(const char *s);
 void	exit_(char *string, int error);
-// void    print_status(t_philos *philo);
 int     is_pair(int i);
 void	fill_data(t_philos *philo, char **av, int ac);
 void    *routine(void *);
+void    start_simi(t_philos *philo, pthread_t *th);
+void    mutex_init(t_philos *philo);
+
 
 #endif
