@@ -38,7 +38,6 @@ typedef struct s_data
     int time_to_sleep;
     int n_necessity_to_eat;
     int num_forks;
-    pthread_t th;
     pthread_mutex_t *f_mutex;
     pthread_mutex_t e_mutex;
     pthread_mutex_t o_mutex;
@@ -55,7 +54,7 @@ typedef struct s_philos
 
 int	    ft_atoi(const char *s);
 void	exit_(char *string, int error);
-void    print_status(t_philos *philo);
+// void    print_status(t_philos *philo);
 int     is_pair(int i);
 void	fill_data(t_philos *philo, char **av, int ac);
 void    *routine(void *);
