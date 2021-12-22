@@ -44,22 +44,31 @@ void print_status(int status, t_philos *ph)
         printf("\e[1;32m%d ", get_time());
         printf("\e[1;32m%d is eating\033[0m\n", ph->id);
     }
-    else if (status == 2)
+    pthread_mutex_unlock(&ph->data->e_mutex);
+    pthread_mutex_lock(&ph->data->e_mutex);
+
+    if (status == 2)
     {
         printf("\033[1;35m%d ", get_time());
         printf("\033[1;35m%d is seelping\033[0m\n", ph->id);
     }
-    else  if (status == 3)
+    pthread_mutex_unlock(&ph->data->e_mutex);
+    pthread_mutex_lock(&ph->data->e_mutex);
+    if (status == 3)
     {
         printf("\e[1;34m%d ", get_time());
         printf("\e[1;34m%d is thinking\033[0m\n", ph->id);
     }
-    else if (status == 4)
+    pthread_mutex_unlock(&ph->data->e_mutex);
+    pthread_mutex_lock(&ph->data->e_mutex);
+    if (status == 4)
     {
         printf("\e[1;33m%d ", get_time());
         printf("\e[1;33m%d has taken a fork\033[0m\n", ph->id);
     }
-    else if (status == 5)
+    pthread_mutex_unlock(&ph->data->e_mutex);
+    pthread_mutex_lock(&ph->data->e_mutex);
+    if (status == 5)
     {
         printf("\e[1;31m%d ", get_time());
         printf("\e[1;31m%d died\033[0m\n", ph->id);
