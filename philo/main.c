@@ -17,7 +17,6 @@
 // todo : start from id 1 , and check why it stops at (id - 2)
 // todo : do I need any other mutex (apart from the forks)
 
-// ! print status function
 // ! gettime function
 
 int get_time()
@@ -27,52 +26,16 @@ int get_time()
     return (current_time.tv_usec);
 }
 
-/*
-    1 == eat
-    2 == sleep
-    3 == think
-    4 == taking forks
-    5 == death
+// ! print status function
 
-*/
-
-void print_status(int status, t_philos *ph)
+void    print_status(char *status, int id, char *color,t_philos *ph)
 {
     pthread_mutex_lock(&ph->data->e_mutex);
-    if (status == 1)
-    {
-        printf("\e[1;32m%d ", get_time());
-        printf("\e[1;32m%d is eating\033[0m\n", ph->id);
-    }
-    pthread_mutex_unlock(&ph->data->e_mutex);
-    pthread_mutex_lock(&ph->data->e_mutex);
-
-    if (status == 2)
-    {
-        printf("\033[1;35m%d ", get_time());
-        printf("\033[1;35m%d is seelping\033[0m\n", ph->id);
-    }
-    pthread_mutex_unlock(&ph->data->e_mutex);
-    pthread_mutex_lock(&ph->data->e_mutex);
-    if (status == 3)
-    {
-        printf("\e[1;34m%d ", get_time());
-        printf("\e[1;34m%d is thinking\033[0m\n", ph->id);
-    }
-    pthread_mutex_unlock(&ph->data->e_mutex);
-    pthread_mutex_lock(&ph->data->e_mutex);
-    if (status == 4)
-    {
-        printf("\e[1;33m%d ", get_time());
-        printf("\e[1;33m%d has taken a fork\033[0m\n", ph->id);
-    }
-    pthread_mutex_unlock(&ph->data->e_mutex);
-    pthread_mutex_lock(&ph->data->e_mutex);
-    if (status == 5)
-    {
-        printf("\e[1;31m%d ", get_time());
-        printf("\e[1;31m%d died\033[0m\n", ph->id);
-    }
+    printf("%s", color);
+    printf ("%d " , get_time());
+    printf("%d ", id);
+    printf("%s", status);
+    printf("\033[0m\n");
     pthread_mutex_unlock(&ph->data->e_mutex);
 }
 
@@ -95,17 +58,20 @@ void ft_free(t_philos *philo, pthread_t *th)
 int check_death(t_philos *philo)
 {
     int gettime;
+    // if (philo->start_time >= philo->data->time_to_die)
+    //    {printf("1\n"); return (1);}
     if (philo->data->time_to_eat >= philo->data->time_to_die)
-    // {
-        // printf("1\n");
-        return (1);
-    // }
+       {printf("2\n"); return (1); }
     gettime = get_time();
     if (philo->data->time_to_die <= (philo->last_eat - gettime))
-    // {
-        // printf("1\n");
+    {
+        printf("time to die %d\n", philo->data->time_to_die);
+        printf("last eat %d\n", philo->last_eat);
+        printf("get time %d\n", gettime);
+        printf("last eat - gettime %d\n", (philo->last_eat - gettime)); 
+        printf("3\n"); 
         return (1);
-    // }
+    }
     return (0);
 }
 
@@ -113,12 +79,14 @@ int check_death(t_philos *philo)
 
 void take_forks(t_philos *ph)
 {
-    pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
+    pthread_mutex_lock(&ph->data->f_mutex[ph->id -1]);
+    printf("fork 1 id %d\n", ph->id - 1);
     ph->has_forks = 1;
-    print_status(4, ph);
-    pthread_mutex_lock(&ph->data->f_mutex[ph->id + 1]);
+    print_status("has taken a fork", ph->id, "\e[1;33m", ph);
+    pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
+    printf("fork 2 id %d\n", ph->id);
     ph->has_forks = 2;
-    print_status(4, ph);
+    print_status("has taken a fork", ph->id, "\e[1;33m", ph);
 }
 
 // ! eat function
@@ -127,7 +95,7 @@ void eating(t_philos *ph)
 {
     if (ph->has_forks == 2)
     {
-        print_status(1, ph);
+        print_status("is eating", ph->id, "\e[1;32m", ph);
         ph->last_eat = get_time();
         ph->eat_nb++;
     }
@@ -140,14 +108,14 @@ void eating(t_philos *ph)
 
 void thinking(t_philos *ph)
 {
-    print_status(3, ph);
+    print_status("is thinking", ph->id, "\e[1;34m", ph);
 }
 
 // ! sleeping fucntion
 
 void sleeping(t_philos *ph)
 {
-    print_status(2, ph);
+    print_status("is sleeping", ph->id, "\e[1;35m", ph);
     usleep(ph->data->time_to_sleep);
 }
 
@@ -155,7 +123,7 @@ void sleeping(t_philos *ph)
 
 void is_dead(t_philos *ph)
 {
-    print_status(5, ph);
+    print_status("died", ph->id, "\e[1;31m", ph);
 }
 
 // ! routine function
@@ -208,6 +176,7 @@ void mutex_init(t_philos *philo)
         pthread_mutex_init(&philo->data->f_mutex[i], NULL);
         i++;
     }
+    pthread_mutex_init(&philo->data->e_mutex, NULL);
 }
 
 // ! start similation function
@@ -221,7 +190,9 @@ void start_simi(t_philos *philo, pthread_t *th)
         i = 1;
         while (i <= philo->data->nb_philos)
         {
+            printf("no\n");
             philo->id = i++;
+            philo->start_time = get_time();
             if (pthread_create(&th[philo->id - 1], NULL, routine, philo))
                 exit_("\e[1;31mError : pthread_create\033[0m", 1);
             if (pthread_join(th[philo->id - 1], NULL))
