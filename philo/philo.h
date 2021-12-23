@@ -61,6 +61,6 @@ void	fill_data(t_philos *philo, char **av, int ac);
 void    *routine(void *);
 void    start_simi(t_philos *philo, pthread_t *th);
 void    mutex_init(t_philos *philo);
-void    print_status(char *status, int id, char *color,t_philos *ph);
+void    print_status(char *status, char *color,t_philos *ph);
 
 #endif

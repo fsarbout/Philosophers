@@ -76,16 +76,6 @@ int is_pair(int i)
 	return (0);
 }
 
-// void    print_status(t_philos *philo)
-// {
-//     printf("num of philos %d\n", philo->data->nb_philos);
-//     printf("time_to_die %d\n", philo->data->time_to_die);
-//     printf("time_to_eat %d\n", philo->data->time_to_eat);
-//     printf("time_to_sleep %d\n", philo->data->time_to_sleep);
-//     printf("n_necessity_to_eat %d\n", philo->data->n_necessity_to_eat);
-// 	printf("**************************\n");
-// }
-
 void fill_data(t_philos *philo, char **av, int ac)
 {
 	philo->data->nb_philos = ft_atoi(av[1]);
@@ -97,4 +87,5 @@ void fill_data(t_philos *philo, char **av, int ac)
 	philo->data->num_forks = philo->data->nb_philos;
 	philo->id = 0;
 	philo->eat_nb = 0;
+	philo->last_eat = 0;
 }
