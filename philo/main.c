@@ -96,16 +96,16 @@ int check_death(t_philos *philo)
 {
     int gettime;
     if (philo->data->time_to_eat >= philo->data->time_to_die)
-    {
-        printf("1\n");
+    // {
+        // printf("1\n");
         return (1);
-    }
+    // }
     gettime = get_time();
     if (philo->data->time_to_die <= (philo->last_eat - gettime))
-    {
-        printf("1\n");
+    // {
+        // printf("1\n");
         return (1);
-    }
+    // }
     return (0);
 }
 
@@ -226,7 +226,6 @@ void start_simi(t_philos *philo, pthread_t *th)
                 exit_("\e[1;31mError : pthread_create\033[0m", 1);
             if (pthread_join(th[philo->id - 1], NULL))
                 exit_("\e[1;31mError : pthread_join \033[0m", 1);
-            // pthread_join(th[philo->id - 1], NULL);
             if (check_death(philo))
             {
                 is_dead(philo);
