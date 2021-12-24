@@ -38,6 +38,7 @@ typedef struct s_data
     int time_to_sleep;
     int n_necessity_to_eat;
     int num_forks;
+    long     start_time;
     pthread_mutex_t *f_mutex;
     pthread_mutex_t e_mutex;
     pthread_mutex_t o_mutex;
@@ -51,7 +52,7 @@ typedef struct s_philos
     int     has_forks;
     int     is_dead;
     int     eat_nb;
-    int     start_time;
+    // int     start_time;
 }   t_philos;
 
 int	    ft_atoi(const char *s);

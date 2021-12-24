@@ -15,15 +15,15 @@
 // todo : time to eat, time to sleep and time to think
 // todo : infinite loop untill someone dies
 // todo : start from id 1 , and check why it stops at (id - 2)
-// todo : do I need any other mutex (apart from the forks)
+// todo : do I need any other mutex (apart the forks)
 
 // ! gettime function
 
-int get_time()
+long get_time()
 {
     struct timeval current_time;
     gettimeofday(&current_time, NULL);
-    return (current_time.tv_usec);
+    return ((current_time.tv_usec * 1000 + current_time.tv_sec / 1000));
 }
 
 // ! print status function
@@ -31,8 +31,12 @@ int get_time()
 void    print_status(char *status,char *color,t_philos *ph)
 {
     pthread_mutex_lock(&ph->data->e_mutex);
+
+    long time = get_time() - ph->data->start_time;
     printf("%s", color);
-    printf ("%d " , get_time());
+    printf ("get time %ld " , get_time());
+    printf("start simi %ld ", ph->data->start_time);
+    printf ("%ld ", time);
     printf("%d ", ph->id);
     printf("%s", status);
     printf("\033[0m\n");
@@ -99,7 +103,7 @@ void eating(t_philos *ph)
         ph->last_eat = get_time();
         ph->eat_nb++;
     }
-    usleep(ph->data->time_to_eat);
+    // usleep(ph->data->time_to_eat);
     pthread_mutex_unlock(&ph->data->f_mutex[ph->id - 1]);
     pthread_mutex_unlock(&ph->data->f_mutex[ph->id]);
 }
@@ -116,7 +120,7 @@ void thinking(t_philos *ph)
 void sleeping(t_philos *ph)
 {
     print_status("is sleeping", "\e[1;35m", ph);
-    usleep(ph->data->time_to_sleep);
+    // usleep(ph->data->time_to_sleep);
 }
 
 // ! dead fucntion
@@ -133,11 +137,13 @@ void *routine(void *arg)
     t_philos *ph;
     ph = (t_philos *)arg;
 
-    take_forks(ph);
-    eating(ph);
-    sleeping(ph);
-    thinking(ph);
-    usleep(800);
+    while (1)
+    {
+        take_forks(ph);
+        eating(ph);
+        sleeping(ph);
+        thinking(ph);
+    }
 
     return 0;
 }
@@ -185,27 +191,27 @@ void start_simi(t_philos *philo, pthread_t *th)
 {
     int i ;
 
-    while (1)
-    {
+    // while (1)
+    // {
         i = 1;
+        philo->data->start_time = get_time();
         while (i <= philo->data->nb_philos)
         {
             philo->id = i++;
-            philo->start_time = get_time();
             if (pthread_create(&th[philo->id - 1], NULL, routine, philo))
                 exit_("\e[1;31mError : pthread_create\033[0m", 1);
             if (pthread_join(th[philo->id - 1], NULL))
                 exit_("\e[1;31mError : pthread_join \033[0m", 1);
-            if (check_death(philo))
-            {
-                is_dead(philo);
-                ft_free(philo, th);
-                return ;
-            }
+        }
+        if (check_death(philo))
+        {
+            is_dead(philo);
+            ft_free(philo, th);
+            return ;
         }
         if (philo->id == philo->data->nb_philos)
             philo->id = 1;
         printf("\e[1;37m***********************************************************************\033[0m\n");
-    }
+    // }
     ft_free(philo, th);
 }
