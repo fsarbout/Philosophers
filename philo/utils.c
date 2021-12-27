@@ -76,16 +76,26 @@ int is_pair(int i)
 	return (0);
 }
 
-void fill_data(t_philos *philo, char **av, int ac)
+void fill_data(t_philos *philo, char **av, int ac, t_data *data)
 {
-	philo->data->nb_philos = ft_atoi(av[1]);
-	philo->data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
-	philo->data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
-	philo->data->time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
+	// int nb_philos = ft_atoi(av[1]);
+	(void)philo;
+
+	// philo = malloc(sizeof(t_philos) * nb_philos);
+    // data = malloc(sizeof(t_data));
+
+
+
+	data->nb_philos = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
+	data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
+	data->time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
 	if (ac == 6)
-		philo->data->n_necessity_to_eat = ft_atoi(av[5]);
-	philo->data->num_forks = philo->data->nb_philos;
-	philo->id = 0;
-	philo->eat_nb = 0;
-	philo->last_eat = 0;
+		data->n_necessity_to_eat = ft_atoi(av[5]);
+	data->num_forks = data->nb_philos;
+	// philo->id = 0;
+	// philo->eat_nb = 0;
+	// philo->last_eat = 0;
+    data->f_mutex = malloc(sizeof(pthread_mutex_t) * data->num_forks);
+    data->th = malloc(sizeof(pthread_t) * data->nb_philos);
 }

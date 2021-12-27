@@ -39,6 +39,7 @@ typedef struct s_data
     int n_necessity_to_eat;
     int num_forks;
     long     start_time;
+    pthread_t *th;
     pthread_mutex_t *f_mutex;
     pthread_mutex_t e_mutex;
     pthread_mutex_t o_mutex;
@@ -52,16 +53,21 @@ typedef struct s_philos
     int     has_forks;
     int     is_dead;
     int     eat_nb;
-    // int     start_time;
 }   t_philos;
 
 int	    ft_atoi(const char *s);
 void	exit_(char *string, int error);
 int     is_pair(int i);
-void	fill_data(t_philos *philo, char **av, int ac);
-void    *routine(void *);
-void    start_simi(t_philos *philo, pthread_t *th);
-void    mutex_init(t_philos *philo);
+void	fill_data(t_philos *philo, char **av, int ac,t_data *data);
+void    start_simi(t_philos *philo, t_data *data);
+void    mutex_init(t_philos *philo, t_data *data);
 void    print_status(char *status, char *color,t_philos *ph);
+void    take_forks(t_philos *ph);
+void    eating(t_philos *ph);
+void    thinking(t_philos *ph);
+void    sleeping(t_philos *ph);
+void    is_dead(t_philos *ph);
+void    *routine(void *arg);
+long    get_time();
 
 #endif
