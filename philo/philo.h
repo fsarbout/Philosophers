@@ -43,6 +43,7 @@ typedef struct s_data
     pthread_mutex_t *f_mutex;
     pthread_mutex_t e_mutex;
     pthread_mutex_t o_mutex;
+    pthread_mutex_t dead_mutex;
 }       t_data;
 
 typedef struct s_philos
@@ -56,9 +57,9 @@ typedef struct s_philos
 }   t_philos;
 
 int	    ft_atoi(const char *s);
-void	exit_(char *string, int error);
+int	    exit_();
 int     is_pair(int i);
-void	fill_data(t_philos *philo, char **av, int ac,t_data *data);
+int	    fill_data(t_philos *philo, char **av, int ac,t_data *data);
 void    start_simi(t_philos *philo, t_data *data);
 void    mutex_init(t_philos *philo, t_data *data);
 void    print_status(char *status, char *color,t_philos *ph);
@@ -69,5 +70,7 @@ void    sleeping(t_philos *ph);
 void    is_dead(t_philos *ph);
 void    *routine(void *arg);
 long    get_time();
+void    ft_free(t_philos *philo);
+int     check_death(t_philos *philo, t_data *data);
 
 #endif
