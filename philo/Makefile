@@ -14,7 +14,7 @@ NAME = philo
 
 CC = gcc -g
 
-CFLAGS = -Wall -Wextra -Werror -lpthread -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -lpthread -fsanitize=address 
 
 SRC =  *.c
 

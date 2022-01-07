@@ -43,7 +43,7 @@ typedef struct s_data
     pthread_mutex_t *f_mutex;
     pthread_mutex_t e_mutex;
     pthread_mutex_t o_mutex;
-    pthread_mutex_t dead_mutex;
+    // pthread_mutex_t dead_mutex;
 }       t_data;
 
 typedef struct s_philos

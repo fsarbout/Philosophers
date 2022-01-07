@@ -89,6 +89,9 @@ int fill_data(t_philos *philo, char **av, int ac, t_data *data)
 			data->n_necessity_to_eat = ft_atoi(av[5]);
 	data->num_forks = data->nb_philos;
     data->f_mutex = malloc(sizeof(pthread_mutex_t) * data->num_forks);
+	// pthread_mutex_init(&data->f_mutex[900], NULL);
+
+    // data->f_mutex = malloc(sizeof(pthread_mutex_t) * 1);
     data->th = malloc(sizeof(pthread_t) * data->nb_philos);
 
 	return (0);
@@ -141,7 +144,6 @@ void ft_free(t_philos *philo)
 
 int check_death(t_philos *philo, t_data *data)
 {
-    // print_status("check death ", "\e[1;31m", philo);
     // pthread_mutex_lock(&philo->data->o_mutex);
     if (data->time_to_eat >= data->time_to_die)
        {printf("2\n"); return (1); }
@@ -163,12 +165,13 @@ void mutex_init(t_philos *philo, t_data *data)
     (void)philo;
     int i = 0;
 
+		// printf("\e[1;31mnum of f mutexes: %d \033[0m\n", data->nb_philos);
     while (i < data->nb_philos)
     {
         pthread_mutex_init(&data->f_mutex[i], NULL);
+		// exit
         i++;
     }
     pthread_mutex_init(&data->o_mutex, NULL);
     pthread_mutex_init(&data->e_mutex, NULL);
-
 }

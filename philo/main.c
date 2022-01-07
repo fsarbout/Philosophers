@@ -12,8 +12,8 @@
 
 #include "philo.h"
 
-// todo : time to eat, time to sleep and time to think
-// todo : update usleep
+// todo : fix check death (supervisor)
+// todo : correct usleep, (usleep adds 5-10 micro )
 
 // ! main function
 
@@ -26,10 +26,11 @@ int main(int ac, char **av)
         return(exit_());
     philo = NULL;
     data = malloc(sizeof(t_data));
-    mutex_init(philo, data);
     if (fill_data(philo, av, ac, data) == -1)
         return 0;
+    mutex_init(philo, data);
 	philo = malloc(sizeof(t_philos) * data->nb_philos);
+
     start_simi(philo, data);
     // if (check_death(philo, data))
     // {
@@ -51,23 +52,37 @@ void start_simi(t_philos *philo, t_data *data)
 
     while (i < data->nb_philos)
     {
-        philo->id = i;
+        philo[i].id = i;
         philo[i].data = data;
         pthread_create(&data->th[i], NULL, &routine, &philo[i]);
         usleep(800);
         i++;
-        printf ("philo->id: %d\n", philo->id);
-        printf ("i: %d\n", i);
-        // check_death(philo, data);
+
+        
+        // check_death(philo, data)
     }
-    // if (check_death(philo, data))
+    i = 0;
+
+    // while (i < data->nb_philos)
     // {
-    //     pthread_mutex_lock(&data->o_mutex);
-    //     // is_dead(philo);
-    //     // pthread_mutex_unlock(&data->o_mutex);
-    //     print_status("died", "\e[1;31m", philo);
-    //     // ft_free(philo);
-    //     return ; 
+
+    //     // pthread_join(data->th[i], NULL);
+    //     i++;
     // }
+
+    while (1)
+    {
+        if (check_death(philo, data))
+        {
+            print_status("died", "\e[1;31m", philo);
+            pthread_mutex_lock(&data->o_mutex);
+            // is_dead(philo);
+            // pthread_mutex_unlock(&data->o_mutex);
+            // ft_free(philo);
+            return ; 
+        }
+        /* code */
+    }
+    
     // ft_free(philo);
 }
