@@ -28,7 +28,7 @@ int main(int ac, char **av)
     data = malloc(sizeof(t_data));
     if (fill_data(philo, av, ac, data) == -1)
         return 0;
-    mutex_init(philo, data);
+    mutex_init(data);
 	philo = malloc(sizeof(t_philos) * data->nb_philos);
 
     start_simi(philo, data);
@@ -55,34 +55,18 @@ void start_simi(t_philos *philo, t_data *data)
         philo[i].id = i;
         philo[i].data = data;
         pthread_create(&data->th[i], NULL, &routine, &philo[i]);
-        usleep(800);
+        // usleep(800);
         i++;
-
-        
-        // check_death(philo, data)
     }
-    i = 0;
 
+    i = 0;
+    
+    check_death(philo, data);
     // while (i < data->nb_philos)
     // {
-
-    //     // pthread_join(data->th[i], NULL);
+    //     pthread_join(data->th[i], NULL);
     //     i++;
     // }
 
-    while (1)
-    {
-        if (check_death(philo, data))
-        {
-            print_status("died", "\e[1;31m", philo);
-            pthread_mutex_lock(&data->o_mutex);
-            // is_dead(philo);
-            // pthread_mutex_unlock(&data->o_mutex);
-            // ft_free(philo);
-            return ; 
-        }
-        /* code */
-    }
-    
     // ft_free(philo);
 }

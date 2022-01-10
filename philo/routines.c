@@ -9,17 +9,12 @@
 
 void take_forks(t_philos *ph)
 {
-    // printf("id: %d\n", ph->id);
-    // printf("id + 1: %d\n", ph->id + 1);
     pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
-    // printf(" size %ld\n", sizeof(ph->data->f_mutex));
     print_status("has taken a fork", "\e[1;33m", ph);
     if ((ph->id + 1) == ph->data->nb_philos)
         pthread_mutex_lock(&ph->data->f_mutex[0]);
     else
         pthread_mutex_lock(&ph->data->f_mutex[ph->id + 1]);
-
-    // pthread_mutex_lock(&ph->data->f_mutex[ph->id + 1]);
     print_status("has taken a fork", "\e[1;33m", ph);
 }
 
@@ -68,7 +63,6 @@ void *routine(void *arg)
         eating(ph);
         sleeping(ph);
         print_status("is thinking", "\e[1;34m", ph);
-        // break;
     }
     return NULL;
 }
