@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:30:43 by fsarbout          #+#    #+#             */
-/*   Updated: 2021/12/03 14:26:23 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:41:56 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,9 @@ void start_simi(t_philos *philo, t_data *data)
         philo[i].id = i;
         philo[i].data = data;
         pthread_create(&data->th[i], NULL, &routine, &philo[i]);
-        // usleep(800);
+        usleep(800);
         i++;
     }
-
     i = 0;
     
     check_death(philo, data);

@@ -16,6 +16,7 @@ void take_forks(t_philos *ph)
     else
         pthread_mutex_lock(&ph->data->f_mutex[ph->id + 1]);
     print_status("has taken a fork", "\e[1;33m", ph);
+    printf("last view in is take forks\n");
 }
 
 // ! eat function
@@ -33,6 +34,7 @@ void eating(t_philos *ph)
     else
         pthread_mutex_unlock(&ph->data->f_mutex[ph->id + 1]);
     pthread_mutex_unlock(&ph->data->e_mutex);
+    printf("last view in is eating\n");
 }
 
 // ! sleeping fucntion
@@ -41,6 +43,7 @@ void sleeping(t_philos *ph)
 {
     print_status("is sleeping", "\e[1;35m", ph);
     usleep(ph->data->time_to_sleep);
+    printf("last view in sleeping\n");
 }
 
 // ! dead fucntion
@@ -48,6 +51,7 @@ void sleeping(t_philos *ph)
 void is_dead(t_philos *ph)
 {
     print_status("died", "\e[1;31m", ph);
+    printf("last view in is dead\n");
 }
 
 // ! routine function
@@ -63,6 +67,8 @@ void *routine(void *arg)
         eating(ph);
         sleeping(ph);
         print_status("is thinking", "\e[1;34m", ph);
+        printf("last view in is thinking\n");
     }
+    printf("last view in is routine\n");
     return NULL;
 }

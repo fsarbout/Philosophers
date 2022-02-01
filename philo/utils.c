@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 09:15:18 by fsarbout          #+#    #+#             */
-/*   Updated: 2021/12/03 14:22:19 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:39:29 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int fill_data(t_philos *philo, char **av, int ac, t_data *data)
 	if (ft_atoi(av[1]) == -1 || ft_atoi(av[2]) == -1 || ft_atoi(av[3]) == -1 || ft_atoi(av[4]) == -1 || (ac == 6 && ft_atoi(av[5]) == -1))
 		return -1;
 	data->nb_philos = ft_atoi(av[1]);
-	if (data->nb_philos == 0)
+	if (data->nb_philos == 0 || data->nb_philos == 1)
 		return -1;
 	data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
 	data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
