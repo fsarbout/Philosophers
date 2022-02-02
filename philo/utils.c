@@ -138,6 +138,7 @@ void ft_free(t_philos *philo)
 int check_death(t_philos *philo, t_data *data)
 {
 	int i;
+	printf ("i'm in check death\n");
 
 	while (1)
 	{
@@ -146,15 +147,11 @@ int check_death(t_philos *philo, t_data *data)
 		printf("nb philos %d\n", data->nb_philos);
 		while (i < data->nb_philos)
 		{
-			pthread_mutex_lock(&philo[i].data->e_mutex);
-
+			// pthread_mutex_lock(&philo[i].data->e_mutex);
 			printf("hello from check deaeth\n");
 			// pthread_mutex_lock(&philo->data->o_mutex);
-			printf("to die %d\n", data->time_to_die);
-			printf("to eat %d\n", data->time_to_eat);
 			if (data->time_to_eat >= data->time_to_die)
 			{
-				// printf("\e[1;31mError \033[0m\n");
 				// pthread_mutex_lock(&philo[i].data->o_mutex);
 				print_status("died", "\e[1;31m", philo);
 				exit(1);
@@ -171,7 +168,7 @@ int check_death(t_philos *philo, t_data *data)
 			}
 			i++;
 		}
-			pthread_mutex_unlock(&philo[i].data->e_mutex);
+			// pthread_mutex_unlock(&philo[i].data->e_mutex);
 
 		// pthread_mutex_unlock(&philo->data->o_mutex);
 		return (0);

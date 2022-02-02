@@ -74,5 +74,4 @@ void    ft_free(t_philos *philo);
 int     check_death(t_philos *philo, t_data *data);
 void	u_sleep(int usec);
 
-
 #endif

@@ -56,11 +56,12 @@ void start_simi(t_philos *philo, t_data *data)
         philo[i].data = data;
         pthread_create(&data->th[i], NULL, &routine, &philo[i]);
         usleep(800);
+        // printf("\n");
         i++;
     }
     i = 0;
     
-    check_death(philo, data);
+    // check_death(philo, data);
     // while (i < data->nb_philos)
     // {
     //     pthread_join(data->th[i], NULL);
