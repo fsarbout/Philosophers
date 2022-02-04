@@ -138,39 +138,37 @@ void ft_free(t_philos *philo)
 int check_death(t_philos *philo, t_data *data)
 {
 	int i;
-	printf ("i'm in check death\n");
 
 	while (1)
 	{
 		usleep(10);
+		printf("check death\n");
 		i = 0;
-		printf("nb philos %d\n", data->nb_philos);
 		while (i < data->nb_philos)
 		{
-			// pthread_mutex_lock(&philo[i].data->e_mutex);
-			printf("hello from check deaeth\n");
-			// pthread_mutex_lock(&philo->data->o_mutex);
+			printf("check death 2\n");
+			printf("i : %d\n", i );
 			if (data->time_to_eat >= data->time_to_die)
 			{
-				// pthread_mutex_lock(&philo[i].data->o_mutex);
 				print_status("died", "\e[1;31m", philo);
+				printf("2\n");
 				exit(1);
-				// pthread_mutex_unlock(&philo[i].data->o_mutex);
-
-				// pthread_mutex_lock(&philo->data->dead_mutex);
-				break;
 			}
-			if (data->time_to_die <= (philo[i].last_eat - get_time()))
+			printf(" philo[i]->last_eat = %ld\n", philo[i].last_eat);
+			printf(" id = %d\n", philo[i].id);
+			printf(" current time = %ld\n", get_time());
+
+			printf(" philo[i]->last_eat - currentTime = %ld\n", (get_time() - philo[i].last_eat));
+			printf(" time to die = %d\n", data->time_to_die);
+			// philo[i].last_eat
+			if (data->time_to_die <= (get_time() - philo[i].last_eat))
 			{
 				print_status("died", "\e[1;31m", philo);
+				printf("1\n");
 				exit(1);
-				break;
 			}
 			i++;
 		}
-			// pthread_mutex_unlock(&philo[i].data->e_mutex);
-
-		// pthread_mutex_unlock(&philo->data->o_mutex);
 		return (0);
 	}
 }

@@ -13,7 +13,7 @@
 #include "philo.h"
 
 // todo : fix check death (supervisor)
-// todo : correct usleep, (usleep adds 5-10 micro )
+// todo : check death last east - problem 
 
 // ! main function
 
@@ -56,17 +56,16 @@ void start_simi(t_philos *philo, t_data *data)
         philo[i].data = data;
         pthread_create(&data->th[i], NULL, &routine, &philo[i]);
         usleep(800);
-        // printf("\n");
         i++;
     }
     i = 0;
     
-    // check_death(philo, data);
-    // while (i < data->nb_philos)
-    // {
-    //     pthread_join(data->th[i], NULL);
-    //     i++;
-    // }
+    check_death(philo, data);
+    while (i < data->nb_philos)
+    {
+        pthread_join(data->th[i], NULL);
+        i++;
+    }
 
     // ft_free(philo);
 }

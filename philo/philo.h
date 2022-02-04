@@ -50,7 +50,7 @@ typedef struct s_philos
 {
     t_data  *data;
     int     id;
-    int     last_eat;
+    long    last_eat;
     int     has_forks;
     int     is_dead;
     int     eat_nb;
