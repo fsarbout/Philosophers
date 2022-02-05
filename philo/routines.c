@@ -22,19 +22,17 @@ void take_forks(t_philos *ph)
 
 void eating(t_philos *ph)
 {
-    pthread_mutex_lock(&ph->data->e_mutex);
+    // pthread_mutex_lock(&ph->data->e_mutex);
     ph->last_eat = get_time();
-    printf(" philo[i]->last_eat = %ld\n", ph->last_eat );
-
     print_status("is eating", "\e[1;32m", ph);
     ph->eat_nb++;
-    usleep(ph->data->time_to_eat);
+    u_sleep(ph->data->time_to_eat * 1000);
     pthread_mutex_unlock(&ph->data->f_mutex[ph->id]);
     if ((ph->id + 1) == ph->data->nb_philos)
         pthread_mutex_unlock(&ph->data->f_mutex[0]);
     else
         pthread_mutex_unlock(&ph->data->f_mutex[ph->id + 1]);
-    pthread_mutex_unlock(&ph->data->e_mutex);
+    // pthread_mutex_unlock(&ph->data->e_mutex);
 }
 
 // ! sleeping fucntion
@@ -42,7 +40,7 @@ void eating(t_philos *ph)
 void sleeping(t_philos *ph)
 {
     print_status("is sleeping", "\e[1;35m", ph);
-    usleep(ph->data->time_to_sleep);
+    u_sleep(ph->data->time_to_sleep * 1000);
 }
 
 // ! dead fucntion

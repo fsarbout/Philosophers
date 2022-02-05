@@ -30,15 +30,7 @@ int main(int ac, char **av)
         return 0;
     mutex_init(data);
 	philo = malloc(sizeof(t_philos) * data->nb_philos);
-
     start_simi(philo, data);
-    // if (check_death(philo, data))
-    // {
-    //     is_dead(philo);
-    //     // print_status("died", "\e[1;31m", philo);
-    //     // ft_free(philo);
-    //     return 0; 
-    // }
 }
 
 // ! start similation function
@@ -53,19 +45,11 @@ void start_simi(t_philos *philo, t_data *data)
     while (i < data->nb_philos)
     {
         philo[i].id = i;
+        philo[i].last_eat = data->start_time;
         philo[i].data = data;
         pthread_create(&data->th[i], NULL, &routine, &philo[i]);
         usleep(800);
         i++;
     }
-    i = 0;
-    
     check_death(philo, data);
-    while (i < data->nb_philos)
-    {
-        pthread_join(data->th[i], NULL);
-        i++;
-    }
-
-    // ft_free(philo);
 }

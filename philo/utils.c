@@ -81,9 +81,9 @@ int fill_data(t_philos *philo, char **av, int ac, t_data *data)
 	data->nb_philos = ft_atoi(av[1]);
 	if (data->nb_philos == 0 || data->nb_philos == 1)
 		return -1;
-	data->time_to_die = ft_atoi(av[2]) * TO_MICRO_S;
-	data->time_to_eat = ft_atoi(av[3]) * TO_MICRO_S;
-	data->time_to_sleep = ft_atoi(av[4]) * TO_MICRO_S;
+	data->time_to_die = ft_atoi(av[2]);
+	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
 		data->n_necessity_to_eat = ft_atoi(av[5]);
 	data->num_forks = data->nb_philos;
@@ -137,39 +137,36 @@ void ft_free(t_philos *philo)
 
 int check_death(t_philos *philo, t_data *data)
 {
-	int i;
+	// int i;
+
+	(void)philo;
+	(void)data;
 
 	while (1)
 	{
-		usleep(10);
-		printf("check death\n");
-		i = 0;
-		while (i < data->nb_philos)
-		{
-			printf("check death 2\n");
-			printf("i : %d\n", i );
-			if (data->time_to_eat >= data->time_to_die)
-			{
-				print_status("died", "\e[1;31m", philo);
-				printf("2\n");
-				exit(1);
-			}
-			printf(" philo[i]->last_eat = %ld\n", philo[i].last_eat);
-			printf(" id = %d\n", philo[i].id);
-			printf(" current time = %ld\n", get_time());
+		// i = 0;
+		// usleep(10);
+		// while (i < data->nb_philos)
+		// {
+		// 	// printf("i **************************************** : %d\n", i );
+		// 	// if (data->time_to_eat >= data->time_to_die)
+		// 	// {
+		// 	// 	print_status("died", "\e[1;31m", philo);
+		// 	// 	printf("2\n");
+		// 	// 	exit(1);
+		// 	// }
 
-			printf(" philo[i]->last_eat - currentTime = %ld\n", (get_time() - philo[i].last_eat));
-			printf(" time to die = %d\n", data->time_to_die);
-			// philo[i].last_eat
-			if (data->time_to_die <= (get_time() - philo[i].last_eat))
-			{
-				print_status("died", "\e[1;31m", philo);
-				printf("1\n");
-				exit(1);
-			}
-			i++;
-		}
-		return (0);
+		// 	// printf("last eat %ld \n", philo[i].last_eat);
+		// 	// printf("data->time_to_die %d \n", data->time_to_die);
+		// 	// printf("-------------------- %ld \n", (get_time()  - philo[i].last_eat));
+		// 	if (data->time_to_die <= ((get_time()  - philo[i].last_eat)))
+		// 	{
+		// 		print_status("died", "\e[1;31m", philo);
+		// 		printf("1\n");
+		// 		exit(1);
+		// 	}
+		// 	i++;
+		// }
 	}
 }
 
@@ -197,6 +194,9 @@ void u_sleep(int usec)
 
 	start_time = get_time();
 	usleep(usec - 20000);
-	while (get_time() - start_time < usec)
+	while (((get_time() - start_time) * 1000) < usec)
 		;
 }
+
+// s > m > u 
+// * 1000 > * 1000
