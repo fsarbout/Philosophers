@@ -88,6 +88,7 @@ int fill_data(t_philos *philo, char **av, int ac, t_data *data)
 		data->n_necessity_to_eat = ft_atoi(av[5]);
 	data->num_forks = data->nb_philos;
 	data->f_mutex = malloc(sizeof(pthread_mutex_t) * data->num_forks);
+	data->e_mutex = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
 	data->th = malloc(sizeof(pthread_t) * data->nb_philos);
 
 	return (0);
@@ -133,40 +134,52 @@ void ft_free(t_philos *philo)
 		free(philo);
 }
 
+// ! check nb eats function
+
+int check_nb_eat(t_philos *philo)
+{
+	int i;
+	int done;
+	
+	i = 0;
+	done = 0;
+	while (i < philo->data->nb_philos)
+	{
+		if (philo[i].eat_nb >= philo->data->n_necessity_to_eat)
+			done++;
+		i++;
+	}
+	if (done == philo->data->nb_philos)
+		return (1);
+	return (0);
+}
+
 // ! check death function
 
 int check_death(t_philos *philo, t_data *data)
 {
-	// int i;
-
-	(void)philo;
-	(void)data;
+	int i;
 
 	while (1)
 	{
-		// i = 0;
-		// usleep(10);
-		// while (i < data->nb_philos)
-		// {
-		// 	// printf("i **************************************** : %d\n", i );
-		// 	// if (data->time_to_eat >= data->time_to_die)
-		// 	// {
-		// 	// 	print_status("died", "\e[1;31m", philo);
-		// 	// 	printf("2\n");
-		// 	// 	exit(1);
-		// 	// }
-
-		// 	// printf("last eat %ld \n", philo[i].last_eat);
-		// 	// printf("data->time_to_die %d \n", data->time_to_die);
-		// 	// printf("-------------------- %ld \n", (get_time()  - philo[i].last_eat));
-		// 	if (data->time_to_die <= ((get_time()  - philo[i].last_eat)))
-		// 	{
-		// 		print_status("died", "\e[1;31m", philo);
-		// 		printf("1\n");
-		// 		exit(1);
-		// 	}
-		// 	i++;
-		// }
+		i = 0;
+		usleep(10);
+		while (i < data->nb_philos)
+		{
+			if (data->time_to_die <= ((get_time() - philo[i].last_eat)))
+			{
+				print_status("died", "\e[1;31m", philo);
+				pthread_mutex_lock(&data->o_mutex);
+				return(1);
+			}
+			if (philo->data->n_necessity_to_eat > 0 && check_nb_eat(philo))
+			{
+				print_status("finished", "\e[1;31m", philo);
+				pthread_mutex_lock(&data->o_mutex);
+				return(1);
+			}
+		}
+		i++;
 	}
 }
 
@@ -179,10 +192,10 @@ void mutex_init(t_data *data)
 	while (i < data->nb_philos)
 	{
 		pthread_mutex_init(&data->f_mutex[i], NULL);
+		pthread_mutex_init(&data->e_mutex[i], NULL);
 		i++;
 	}
 	pthread_mutex_init(&data->o_mutex, NULL);
-	pthread_mutex_init(&data->e_mutex, NULL);
 	pthread_mutex_init(&data->dead_mutex, NULL);
 }
 
@@ -193,10 +206,7 @@ void u_sleep(int usec)
 	long start_time;
 
 	start_time = get_time();
-	usleep(usec - 20000);
+	usleep(usec - 10000);
 	while (((get_time() - start_time) * 1000) < usec)
 		;
 }
-
-// s > m > u 
-// * 1000 > * 1000

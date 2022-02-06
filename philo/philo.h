@@ -41,7 +41,7 @@ typedef struct s_data
     long     start_time;
     pthread_t *th;
     pthread_mutex_t *f_mutex;
-    pthread_mutex_t e_mutex;
+    pthread_mutex_t *e_mutex;
     pthread_mutex_t o_mutex;
     pthread_mutex_t dead_mutex;
 }       t_data;

@@ -12,7 +12,7 @@ void take_forks(t_philos *ph)
     pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
     print_status("has taken a fork", "\e[1;33m", ph);
     if ((ph->id + 1) == ph->data->nb_philos)
-        pthread_mutex_lock(&ph->data->f_mutex[0]);
+            pthread_mutex_lock(&ph->data->f_mutex[0]);
     else
         pthread_mutex_lock(&ph->data->f_mutex[ph->id + 1]);
     print_status("has taken a fork", "\e[1;33m", ph);
@@ -22,8 +22,9 @@ void take_forks(t_philos *ph)
 
 void eating(t_philos *ph)
 {
-    // pthread_mutex_lock(&ph->data->e_mutex);
+    pthread_mutex_lock(&ph->data->e_mutex[ph->id]);
     ph->last_eat = get_time();
+    pthread_mutex_unlock(&ph->data->e_mutex[ph->id]);
     print_status("is eating", "\e[1;32m", ph);
     ph->eat_nb++;
     u_sleep(ph->data->time_to_eat * 1000);
@@ -32,7 +33,6 @@ void eating(t_philos *ph)
         pthread_mutex_unlock(&ph->data->f_mutex[0]);
     else
         pthread_mutex_unlock(&ph->data->f_mutex[ph->id + 1]);
-    // pthread_mutex_unlock(&ph->data->e_mutex);
 }
 
 // ! sleeping fucntion

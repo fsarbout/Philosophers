@@ -12,8 +12,9 @@
 
 #include "philo.h"
 
-// todo : fix check death (supervisor)
-// todo : check death last east - problem 
+// todo : fix ft_free
+// todo : norme 
+// todo : fix decalage
 
 // ! main function
 
@@ -44,12 +45,14 @@ void start_simi(t_philos *philo, t_data *data)
 
     while (i < data->nb_philos)
     {
+        philo[i].eat_nb = 0;
         philo[i].id = i;
         philo[i].last_eat = data->start_time;
         philo[i].data = data;
         pthread_create(&data->th[i], NULL, &routine, &philo[i]);
-        usleep(800);
+        usleep(80);
         i++;
     }
     check_death(philo, data);
+    ft_free(philo);
 }
