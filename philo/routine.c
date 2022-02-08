@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 16:23:30 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/07 22:20:07 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/08 23:37:07 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	take_forks(t_philos *ph)
 
 void	eating(t_philos *ph)
 {
+	ph->is_eating = 1;
 	pthread_mutex_lock(&ph->data->e_mutex[ph->id]);
 	ph->last_eat = get_time();
 	pthread_mutex_unlock(&ph->data->e_mutex[ph->id]);
@@ -51,6 +52,7 @@ void	eating(t_philos *ph)
 		pthread_mutex_unlock(&ph->data->f_mutex[0]);
 	else
 		pthread_mutex_unlock(&ph->data->f_mutex[ph->id + 1]);
+	ph->is_eating = 0;
 }
 
 void	sleeping(t_philos *ph)

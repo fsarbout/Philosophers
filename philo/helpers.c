@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 09:15:18 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/07 17:05:13 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/08 23:55:30 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_free(t_philos *philo)
 {
 	if (philo->data->f_mutex)
 		free(philo->data->f_mutex);
+	if (philo->data->e_mutex)
+		free(philo->data->e_mutex);
 	if (philo->data->th)
 		free(philo->data->th);
 	if (philo->data)

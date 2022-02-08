@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:30:43 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/07 22:21:16 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/08 23:56:24 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int ac, char **av)
 	mutex_init(data);
 	philo = malloc(sizeof(t_philos) * data->nb_philos);
 	start_simi(philo, data);
+	ft_free(philo);
+	system("leaks philo");
 }
 
 void	start_simi(t_philos *philo, t_data *data)
@@ -48,7 +50,6 @@ void	start_simi(t_philos *philo, t_data *data)
 		i++;
 	}
 	check_death(philo, data);
-	// ft_free(philo);
 }
 
 int	check_death(t_philos *philo, t_data *data)
@@ -67,7 +68,7 @@ int	check_death(t_philos *philo, t_data *data)
 				pthread_mutex_lock(&data->o_mutex);
 				return (1);
 			}
-			if (philo->data->n_necessity_to_eat > 0 && check_nb_eat(philo))
+			if (philo->data->n_necessity_to_eat > 0 && check_nb_eat(philo) && !philo->is_eating)
 			{
 				print_status("finished", "\e[1;31m", philo);
 				pthread_mutex_lock(&data->o_mutex);

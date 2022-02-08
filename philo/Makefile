@@ -6,7 +6,7 @@
 #    By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/10 20:29:56 by fsarbout          #+#    #+#              #
-#    Updated: 2022/02/07 15:38:13 by fsarbout         ###   ########.fr        #
+#    Updated: 2022/02/08 23:57:18 by fsarbout         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 
 CC = gcc -g
 
-CFLAGS = -Wall -Wextra -Werror -lpthread -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror -lpthread
 
 SRC =  main.c\
 	helpers.c\
