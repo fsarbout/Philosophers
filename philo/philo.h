@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:27:38 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/08 23:24:45 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/09 00:20:18 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_data
 typedef struct s_philos
 {
 	t_data	*data;
-	int 	is_eating;
 	int		id;
 	long	last_eat;
 	int		has_forks;
