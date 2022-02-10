@@ -6,14 +6,11 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:30:43 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/09 00:59:16 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/10 01:11:44 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// todo : fix ft_free
-// todo : fix decalage
 
 int	main(int ac, char **av)
 {
@@ -29,7 +26,7 @@ int	main(int ac, char **av)
 	mutex_init(data);
 	philo = malloc(sizeof(t_philos) * data->nb_philos);
 	start_simi(philo, data);
-	// ft_free(philo);
+	ft_free(philo);
 }
 
 void	start_simi(t_philos *philo, t_data *data)
@@ -86,7 +83,6 @@ void	mutex_init(t_data *data)
 		i++;
 	}
 	pthread_mutex_init(&data->o_mutex, NULL);
-	pthread_mutex_init(&data->dead_mutex, NULL);
 }
 
 int	check_nb_eat(t_philos *philo)

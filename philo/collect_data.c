@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 15:26:52 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/07 22:01:20 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/10 01:17:02 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ int	collect_data(char **av, int ac, t_data *data)
 	data->nb_philos = ft_atoi(av[1]);
 	if (data->nb_philos == 0)
 		return (-1);
-	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
 		data->n_necessity_to_eat = ft_atoi(av[5]);
+	if (data->n_necessity_to_eat == 0)
+		return (-1);
 	data->num_forks = data->nb_philos;
 	data->f_mutex = malloc(sizeof(pthread_mutex_t) * data->num_forks);
 	data->e_mutex = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
