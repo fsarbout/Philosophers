@@ -6,16 +6,16 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:30:43 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/10 01:11:44 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/10 21:56:42 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_philos	*philo;
-	t_data		*data;
+	t_philos *philo;
+	t_data *data;
 
 	if (ac != 5 && ac != 6)
 		return (exit_());
@@ -29,9 +29,9 @@ int	main(int ac, char **av)
 	ft_free(philo);
 }
 
-void	start_simi(t_philos *philo, t_data *data)
+void start_simi(t_philos *philo, t_data *data)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	data->start_time = get_time();
@@ -48,32 +48,35 @@ void	start_simi(t_philos *philo, t_data *data)
 	check_death(philo, data);
 }
 
-int	check_death(t_philos *philo, t_data *data)
+int check_death(t_philos *philo, t_data *data)
 {
-	int	i;
+	int i;
 
 	while (1)
 	{
 		i = 0;
-		usleep(10);
+		usleep(100);
 		while (i < data->nb_philos)
 		{
+			pthread_mutex_lock(philo[i].data->e_mutex);
 			if (data->time_to_die <= ((get_time() - philo[i].last_eat)))
 			{
 				print_status("died", "\e[1;31m", philo);
 				pthread_mutex_lock(&data->o_mutex);
 				return (1);
 			}
+			pthread_mutex_unlock(philo[i].data->e_mutex);
 			if (philo->data->n_necessity_to_eat > 0 && check_nb_eat(philo))
 				return (1);
 		}
 		i++;
+		pthread_join(data->th[i], NULL);
 	}
 }
 
-void	mutex_init(t_data *data)
+void mutex_init(t_data *data)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < data->nb_philos)
@@ -83,12 +86,13 @@ void	mutex_init(t_data *data)
 		i++;
 	}
 	pthread_mutex_init(&data->o_mutex, NULL);
+	pthread_mutex_init(&data->d_mutex, NULL);
 }
 
-int	check_nb_eat(t_philos *philo)
+int check_nb_eat(t_philos *philo)
 {
-	int	i;
-	int	done;
+	int i;
+	int done;
 
 	i = 0;
 	done = 0;

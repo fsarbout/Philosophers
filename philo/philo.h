@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:27:38 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/10 01:10:25 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/10 21:32:54 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_data
 	pthread_mutex_t	*f_mutex;
 	pthread_mutex_t	*e_mutex;
 	pthread_mutex_t	o_mutex;
+	pthread_mutex_t	d_mutex;
 }					t_data;
 
 typedef struct s_philos
