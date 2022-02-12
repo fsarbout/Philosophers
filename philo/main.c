@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:30:43 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/10 21:56:42 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/12 22:48:45 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void start_simi(t_philos *philo, t_data *data)
 	while (i < data->nb_philos)
 	{
 		philo[i].eat_nb = 0;
+		philo[i].is_eating = 0;
 		philo[i].id = i;
 		philo[i].last_eat = data->start_time;
 		philo[i].data = data;
@@ -55,22 +56,24 @@ int check_death(t_philos *philo, t_data *data)
 	while (1)
 	{
 		i = 0;
-		usleep(100);
 		while (i < data->nb_philos)
 		{
-			pthread_mutex_lock(philo[i].data->e_mutex);
-			if (data->time_to_die <= ((get_time() - philo[i].last_eat)))
+			if (!philo[i].is_eating)
 			{
-				print_status("died", "\e[1;31m", philo);
-				pthread_mutex_lock(&data->o_mutex);
-				return (1);
+				if (data->time_to_die <= ((get_time() - philo[i].last_eat)))
+				{
+					pthread_mutex_lock(philo->data->e_mutex);
+					print_status("died", "\e[1;31m", philo, i);
+					pthread_mutex_lock(&data->o_mutex);
+					return (1);
+				}
+				if (philo->data->n_necessity_to_eat > 0 && check_nb_eat(philo))
+					return (1);
 			}
-			pthread_mutex_unlock(philo[i].data->e_mutex);
-			if (philo->data->n_necessity_to_eat > 0 && check_nb_eat(philo))
-				return (1);
+			philo[i].id = i;
+			i++;
 		}
-		i++;
-		pthread_join(data->th[i], NULL);
+		usleep(100);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:27:38 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/10 21:32:54 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/12 21:48:33 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_philos
 {
 	t_data	*data;
 	int		id;
+	int 	is_eating;
 	long	last_eat;
 	int		has_forks;
 	int		is_dead;
@@ -62,7 +63,7 @@ int		is_pair(int i);
 int		collect_data(char **av, int ac, t_data *data);
 void	start_simi(t_philos *philo, t_data *data);
 void	mutex_init(t_data *data);
-void	print_status(char *status, char *color, t_philos *ph);
+void	print_status(char *status, char *color, t_philos *ph, int id);
 void	take_forks(t_philos *ph);
 void	eating(t_philos *ph);
 void	thinking(t_philos *ph);

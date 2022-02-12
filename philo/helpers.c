@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 09:15:18 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/10 01:09:50 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/12 22:37:26 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ long	get_time(void)
 	return ((current_time.tv_usec / 1000 + current_time.tv_sec * 1000));
 }
 
-void	print_status(char *status, char *color, t_philos *ph)
+void	print_status(char *status, char *color, t_philos *ph, int id)
 {
 	long	time;
 
@@ -34,7 +34,7 @@ void	print_status(char *status, char *color, t_philos *ph)
 	time = get_time() - ph->data->start_time;
 	printf("%s", color);
 	printf("%ld ", time);
-	printf("%d ", ph->id + 1);
+	printf("%d ", id + 1);
 	printf("%s", status);
 	printf("\033[0m\n");
 	pthread_mutex_unlock(&ph->data->o_mutex);
