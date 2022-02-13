@@ -6,16 +6,16 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:30:43 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/12 22:48:45 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/13 16:17:44 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_philos *philo;
-	t_data *data;
+	t_philos	*philo;
+	t_data		*data;
 
 	if (ac != 5 && ac != 6)
 		return (exit_());
@@ -29,9 +29,9 @@ int main(int ac, char **av)
 	ft_free(philo);
 }
 
-void start_simi(t_philos *philo, t_data *data)
+void	start_simi(t_philos *philo, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	data->start_time = get_time();
@@ -40,7 +40,7 @@ void start_simi(t_philos *philo, t_data *data)
 		philo[i].eat_nb = 0;
 		philo[i].is_eating = 0;
 		philo[i].id = i;
-		philo[i].last_eat = data->start_time;
+		philo[i].last_eat = get_time();
 		philo[i].data = data;
 		pthread_create(&data->th[i], NULL, &routine, &philo[i]);
 		usleep(100);
@@ -49,37 +49,38 @@ void start_simi(t_philos *philo, t_data *data)
 	check_death(philo, data);
 }
 
-int check_death(t_philos *philo, t_data *data)
+int	check_death(t_philos *ph, t_data *data)
 {
-	int i;
+	int	i;
 
 	while (1)
 	{
 		i = 0;
 		while (i < data->nb_philos)
 		{
-			if (!philo[i].is_eating)
+			if (!ph[i].is_eating)
 			{
-				if (data->time_to_die <= ((get_time() - philo[i].last_eat)))
+				pthread_mutex_lock(&ph[i].data->d_mutex);
+				if ((data->t_to_die * 1000) <= ((get_time() - ph[i].last_eat)))
 				{
-					pthread_mutex_lock(philo->data->e_mutex);
-					print_status("died", "\e[1;31m", philo, i);
+					print_status("died", "\e[1;31m", ph, i);
 					pthread_mutex_lock(&data->o_mutex);
 					return (1);
 				}
-				if (philo->data->n_necessity_to_eat > 0 && check_nb_eat(philo))
+				pthread_mutex_unlock(&ph[i].data->d_mutex);
+				if (ph->data->n_necessity_to_eat > 0 && check_nb_eat(ph))
 					return (1);
 			}
-			philo[i].id = i;
+			ph[i].id = i;
 			i++;
 		}
 		usleep(100);
 	}
 }
 
-void mutex_init(t_data *data)
+void	mutex_init(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->nb_philos)
@@ -92,10 +93,10 @@ void mutex_init(t_data *data)
 	pthread_mutex_init(&data->d_mutex, NULL);
 }
 
-int check_nb_eat(t_philos *philo)
+int	check_nb_eat(t_philos *philo)
 {
-	int i;
-	int done;
+	int	i;
+	int	done;
 
 	i = 0;
 	done = 0;

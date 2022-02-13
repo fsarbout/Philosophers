@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 16:23:30 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/12 22:05:49 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/13 16:11:17 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,9 @@ void	take_forks(t_philos *ph)
 {
 	pthread_mutex_lock(&ph->data->f_mutex[ph->id]);
 	print_status("has taken a fork", "\e[1;33m", ph, ph->id);
-	if ((ph->id + 1) == ph->data->nb_philos)
-		pthread_mutex_lock(&ph->data->f_mutex[0]);
-	else
-		pthread_mutex_lock(&ph->data->f_mutex[ph->id + 1]);
-	print_status("has taken a fork", "\e[1;33m",ph,  ph->id);
+	pthread_mutex_lock(&ph->data->f_mutex[(ph->id + 1)
+		% ph->data->nb_philos]);
+	print_status("has taken a fork", "\e[1;33m", ph, ph->id);
 }
 
 void	eating(t_philos *ph)
@@ -47,11 +45,9 @@ void	eating(t_philos *ph)
 	print_status("is eating", "\e[1;32m", ph, ph->id);
 	ph->eat_nb++;
 	u_sleep(ph->data->time_to_eat * 1000);
+	pthread_mutex_unlock(&ph->data->f_mutex[(ph->id + 1)
+		% ph->data->nb_philos]);
 	pthread_mutex_unlock(&ph->data->f_mutex[ph->id]);
-	if ((ph->id + 1) == ph->data->nb_philos)
-		pthread_mutex_unlock(&ph->data->f_mutex[0]);
-	else
-		pthread_mutex_unlock(&ph->data->f_mutex[ph->id + 1]);
 	ph->is_eating = 0;
 }
 

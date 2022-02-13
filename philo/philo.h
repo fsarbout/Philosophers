@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 20:27:38 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/12 21:48:33 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/13 16:10:19 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 typedef struct s_data
 {
 	int				nb_philos;
-	int				time_to_die;
+	int				t_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				n_necessity_to_eat;
@@ -44,18 +44,18 @@ typedef struct s_data
 	pthread_mutex_t	*e_mutex;
 	pthread_mutex_t	o_mutex;
 	pthread_mutex_t	d_mutex;
-}					t_data;
+}	t_data;
 
 typedef struct s_philos
 {
 	t_data	*data;
 	int		id;
-	int 	is_eating;
+	int		is_eating;
 	long	last_eat;
 	int		has_forks;
 	int		is_dead;
 	int		eat_nb;
-}			t_philos;
+}	t_philos;
 
 int		ft_atoi(const char *s);
 int		exit_(void);
@@ -72,7 +72,7 @@ void	*routine(void *arg);
 long	get_time(void);
 void	ft_free(t_philos *philo);
 int		check_death(t_philos *philo, t_data *data);
-void	u_sleep(int usec);
+void	u_sleep(unsigned long usec);
 int		check_nb_eat(t_philos *philo);
 void	thinking(t_philos *ph);
 

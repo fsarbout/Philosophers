@@ -6,7 +6,7 @@
 /*   By: fsarbout <fsarbout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 15:26:52 by fsarbout          #+#    #+#             */
-/*   Updated: 2022/02/12 20:46:52 by fsarbout         ###   ########.fr       */
+/*   Updated: 2022/02/13 16:12:56 by fsarbout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	collect_data(char **av, int ac, t_data *data)
 	if (data->nb_philos == 0)
 		return (-1);
 	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_die = ft_atoi(av[2]);
+	data->t_to_die = ft_atoi(av[2]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
 		data->n_necessity_to_eat = ft_atoi(av[5]);
